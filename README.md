@@ -1,4 +1,4 @@
-![Untitled design (1)](https://github.com/maxklema/Summify/assets/80615123/144e3a29-3218-4dd3-8850-5c1201ab9021)
+![Untitled design](https://github.com/maxklema/Summify/assets/80615123/b7f41a08-5edd-4873-8790-ae906a34527c)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Z8Z6TD3SI) <img src="https://img.shields.io/github/stars/maxklema?label=Stars" alt="stars">
 
