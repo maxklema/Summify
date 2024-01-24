@@ -43,7 +43,7 @@ function getText(contentData) {
                             prompt = "summarize this youtube video BRIEFLY in 100 - 200 words: " + allText;
                         } else {
 
-                            prompt = "summarize this webpage BRIEFLY in 100 - 200 words. Ignore headers, footers, ads, and other misc. junk. Just the main content of the page that makes sense when summarized:" + allText;
+                            prompt = "summarize this webpage BRIEFLY in 100 - 200 words. Ignore headers, footers, ads, and other misc. junk. Summarize in language the page was written in. Just the main content of the page that makes sense when summarized:" + allText;
                         }
 
                         if (prompt.length > 25000) {
@@ -59,7 +59,8 @@ function getText(contentData) {
 
                         } else {
 
-                            prompt = "Summarize this webpage with GREAT DETAIL in EXACTLY 250 to 500 words. NO LESS THAN 250 WORDS. Ignore headers, footers, ads, and other misc. junk. Just the main content of the page that makes sense when summarized: " + allText;
+                            prompt = "Summarize this webpage with GREAT DETAIL in EXACTLY 250 to 500 words. NO LESS THAN 250 WORDS. Ignore headers, footers, ads, and other misc. junk. Summarize in language the page was written in.Just the main content of the page that makes sense when summarized: " + allText;
+                            console.log(prompt);
 
                         }
 
@@ -155,7 +156,7 @@ function retrieveSubtitles() {
     // Fetching Subtitles
     var completeTranscript = "";
 
-    const fetchSubtitles = async (videoID, lang = 'en') => {
+    const fetchSubtitles = async (videoID, lang) => {
         try {
             const subtitles = await getSubtitles({ videoID, lang });
             length = subtitles.length;
@@ -193,7 +194,11 @@ function retrieveSubtitles() {
             //getting what's after v=
             videoID = rawYTLink.substring((rawYTLink.indexOf("v=") + 2), rawYTLink.indexOf("&"));
         }
-        fetchSubtitles(videoID, 'en');
+        
+        
+        fetchSubtitles(videoID, '');
+        
+        
         
     } else {
 
