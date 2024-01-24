@@ -8,7 +8,7 @@ Summify is a browser extension that summarizes content on web pages, articles, a
 
 ## Installation
 
-Installing Summify in Chrome → [not yet published]
+Installing Summify in Chrome → https://chromewebstore.google.com/detail/gdcpchnnadknakfgicdbfhajpgnfbeog
 
 ## Usage
 
