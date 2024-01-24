@@ -2,7 +2,9 @@
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Z8Z6TD3SI) <img src="https://img.shields.io/github/stars/maxklema?label=Stars" alt="stars">
 
-Summify is a browser extension that summarize content on web pages, articles, and YouTube videos using Google Gemini's node.js API.
+# Summify
+
+Summify is a browser extension that summarizes content on web pages, articles, and YouTube videos using Google Gemini's node.js API.
 
 ## Installation
 
