@@ -1,4 +1,4 @@
-![Summify Logo](https://github.com/maxklema/Summify-Main/assets/80615123/90ec618c-0734-4ab4-b25d-b38dff71c505)
+![Untitled design (2)](https://github.com/maxklema/Summify/assets/80615123/875ebcd1-54e9-4587-8895-4d0421aac9f0)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Z8Z6TD3SI) <img src="https://img.shields.io/github/stars/maxklema?label=Stars" alt="stars">
 
@@ -7,8 +7,6 @@ Summify is a browser extension that summarize content on web pages, articles, an
 ## Installation
 
 Installing Summify in Chrome → [not yet published]
-
-Installing Summify in Microsoft Edge → [not yet published]
 
 ## Usage
 
@@ -23,11 +21,11 @@ Detailed → Longer (~250 - 500 words)
 Then, just press the 'Summarize' button at the bottom of the extension, and Summify will do its magic!
 
 
-![Summify Image](https://github.com/maxklema/Summify-Main/assets/80615123/93eda292-63bf-403a-9fe3-5959c9e3a774)
+![Untitled design (3)](https://github.com/maxklema/Summify/assets/80615123/36d0b7a7-649d-41af-9e67-454891c5d2a1)
 
-![Summify Image](https://github.com/maxklema/Summify-Main/assets/80615123/4836d451-d2ae-48f7-acd7-cbcdd10a2092)
+![Untitled design (4)](https://github.com/maxklema/Summify/assets/80615123/ce4578bd-14df-4f92-a91e-d8b5fed32512)
 
-![Works Across The Web](https://github.com/maxklema/Summify-Main/assets/80615123/fb23b0ea-35c9-4cb3-8225-d4f594d3caa6)
+![Works Across The Web](https://github.com/maxklema/Summify/assets/80615123/6a742cfc-eada-40c4-a8a5-441f4da97a17)
 
 
 ## Contributing
