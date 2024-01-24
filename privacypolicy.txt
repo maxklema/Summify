@@ -1,0 +1,31 @@
+Privacy Policy
+
+This Privacy Policy explains how Summify ("I", "my") collects, uses, and shares information collected from users ("you" or "your") of the Summify Chrome extension.
+
+Information We Collect
+
+When you use the Summify Chrome extension, we may collect the following types of information:
+
+Website Content: We may collect website content, including text, images, sounds, videos, or hyperlinks, from the web pages you visit for the purpose of summarization within the Summify extension.
+
+How We Use Your Information
+
+We use the information we collect for the following purposes:
+
+Summarization: We use the collected website content to generate summaries within the Summify extension to enhance your browsing experience.
+
+Sharing of Information
+
+We do not sell or transfer your information to third parties. The information we collect is used solely to provide the summarization functionality within the Summify extension.
+
+Your Choices
+
+You can choose to disable or uninstall the Summify extension at any time. This will stop the collection of website content by the extension.
+
+Contact Us
+
+If you have any questions or concerns about this Privacy Policy or our privacy practices, please contact me at maxklema@gmail.com
+
+Changes to This Privacy Policy
+
+We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.

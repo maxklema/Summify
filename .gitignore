@@ -1,0 +1,9 @@
+src/content/config.json
+node_modules
+.env
+manifest.json
+src/popup/Poppins
+.DS_Store
+package.json
+package-lock.json
+dist
