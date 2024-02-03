@@ -132,7 +132,7 @@ body {
 }
 
 #text-youtube {
-     resize: none;
+    resize: none;
     font-family: Poppins-Normal;
     font-size: 12px;
     border: none;
@@ -144,44 +144,50 @@ body {
 .summary-details {
     background-color: white;
     display: flex;
-    flex-direction: row;
     justify-content: right;
-    max-height: 15px;
+    max-height: 20px;
     align-items: center;
-    padding-top: 5px;
+    padding-top: 3px;
+    padding-bottom: 4px;
+    
 
 }
 
-#word-count-label-web {
+#word-count-label {
     background-color: white;
     color: #808080;
     font-family: Poppins-Normal;
     font-size: 11px;
+    padding-top: 3px;
+    
     
 }
 
-#word-count-label-youtube {
-    background-color: white;
-    color: #808080;
+#summary-type-label {
+    color: white;
     font-family: Poppins-Normal;
-    font-size: 11px;
-    display: none;
-    
+    font-size: 10px;
+    background-color: #47bdc3;
+    border-radius: 5px;
+    padding: 2px 4px;
+    margin-left: 4px;
 }
+
+
 
 .summary-details button {
     border: none;
     background-color: white;
-    margin-top: 2px;
+    margin-top: 4.5px;
 }
 
-.summary-details button img {
+.summary-details  button img {
     max-height: 13px;
     background-color: white;
     max-width: 13px;
 }
 
-.summary-details button img:hover{
+.summary-details  button img:hover{
     cursor: pointer;
 }
 

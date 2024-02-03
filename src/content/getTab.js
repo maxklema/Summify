@@ -2,6 +2,7 @@ document.getElementById("summarizeBtn").addEventListener("click", getSummaryType
 document.getElementById("copy-text-button").addEventListener("click", copyText);
 
 const { getSubtitles } = require('youtube-caption-extractor');
+require("dotenv").config();
 
 function getText(contentData) {
 

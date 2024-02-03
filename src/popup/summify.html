@@ -28,26 +28,25 @@
                 
         </div>
         <div class="summary-type-parent">
-            <label for="type">Type</label>
+            <label for="type">Language</label>
                 <select name="type" id="summary-type-select">
-                    <option value="text">Article / Text</option>
-                    <option value="youtube-video">YouTube Vid</option>
+                    <option value="english">English</option>
+                    <option value="espanol">Espanol</option>
+                    <option value="mandarin_chinese">Man. Chinese</option>
+                    <option value="hindi">Hindi</option>
+                    <option value="french">French</option>
                 </select>
         </div>
     </div>
 
-    <div id="youtube-link-js" class="youtube-link-parent">
-        <label for="youtube-link-input">Youtube Video Link</label>
-        <input id="youtube-link-input" placeholder="Enter a valid youtube video link" type="text">
-    </div>
-
     <div id="summary-parent-js" class="summary-parent">
         <textarea id="text" placeholder="Your summary will appear here!" readonly></textarea>
-        <textarea id="text-youtube" placeholder="Your summary will appear here!" readonly></textarea>
         <div class="summary-details">
-            <p id="word-count-label-web">0 words</p>
-            <p id="word-count-label-youtube">0 words</p>
+          
+            <p id="word-count-label">0 words</p>
             <button id="copy-text-button"><img src="images/copy_icon.png" alt="Copy Icon"></button>
+            <p id="summary-type-label">Webpage</p>
+          
         </div>
     </div>
 
@@ -59,6 +58,7 @@
         <img id="loading-gif" src="images/loading.gif" alt="loading">
     </button>
     <script src="../../dist/bundle.js"></script>
+
 
 
 
