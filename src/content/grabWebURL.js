@@ -4,8 +4,10 @@ var id = "page-link"
 
 var content = {
     web_url,
-    id
+    id,
 }
 
-
-chrome.runtime.sendMessage({ action: 'updatePopup', textContent: JSON.stringify(content) });
+chrome.runtime.sendMessage({ action: 'updatePopup', textContent: JSON.stringify(content) }, function() {
+    // This callback function will be called after the 'getLanguage' message is sent
+    chrome.runtime.sendMessage({ action: 'getLanguage' });
+});

@@ -2,14 +2,18 @@ document.getElementById("summarizeBtn").addEventListener("click", getSummaryType
 document.getElementById("copy-text-button").addEventListener("click", copyText);
 
 const { getSubtitles } = require('youtube-caption-extractor');
-require("dotenv").config();
 
 function getText(contentData) {
 
     var selectElement = document.getElementById('summary-length-select');
 
-    var optionSelected = selectElement.options[selectElement.selectedIndex].text;
+    var optionSelected = selectElement.selectedIndex;
 
+    var Language = document.getElementById("summary-type-select").value;
+
+    if (Language == "auto"){
+        Language = "the langauge the text is written in";
+    }
 
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         //gets the current tabs id
@@ -19,7 +23,7 @@ function getText(contentData) {
         //inject the script into the tab
         chrome.scripting.executeScript({
             target: { tabId: currentTabId },
-            func: (optionSelected, contentData) => {
+            func: (optionSelected, contentData, Language) => {
 
                 async function scrapeContent() {
 
@@ -33,18 +37,16 @@ function getText(contentData) {
 
                     var prompt = "";
 
-                    //api request to summarize
-                    //onsole.log(optionSelected);
 
-
-                    if (optionSelected === "Snapshot (~ 100-250 wd)") {
+                    if (optionSelected === 0) {
 
                         if (allText.startsWith("Video")) {
 
-                            prompt = "summarize this youtube video BRIEFLY in 100 - 200 words: " + allText;
+                            prompt = "summarize this youtube video transcript BRIEFLY in " + Language + ": " + allText;
+                        
                         } else {
 
-                            prompt = "summarize this webpage BRIEFLY in 100 - 200 words. Ignore headers, footers, ads, and other misc. junk. Summarize in language the page was written in. Just the main content of the page that makes sense when summarized:" + allText;
+                            prompt = "summarize this webpage BRIEFLY in " + Language + ". Ignore headers, footers, ads, and other misc. junk :" + allText;
                         }
 
                         if (prompt.length > 25000) {
@@ -56,11 +58,11 @@ function getText(contentData) {
 
                         if (allText.startsWith("Video")) {
 
-                            prompt = "Summarize this youtube video with GREAT DETAIL in EXACTLY 250 to 500 words. NO LESS THAN 250 WORDS: " + allText;
+                            prompt = "Summarize this youtube video transcript with GREAT DETAIL (250-500 words) in " + Language + ": " + allText;
 
                         } else {
 
-                            prompt = "Summarize this webpage with GREAT DETAIL in EXACTLY 250 to 500 words. NO LESS THAN 250 WORDS. Ignore headers, footers, ads, and other misc. junk. Summarize in language the page was written in.Just the main content of the page that makes sense when summarized: " + allText;
+                            prompt = "Summarize this webpage with GREAT DETAIL (250-500 words) in " + Language + ". NO LESS THAN 250 WORDS. Ignore headers, footers, ads, and other misc. junk: " + allText;
                             console.log(prompt);
 
                         }
@@ -94,18 +96,21 @@ function getText(contentData) {
                     var requestData = {
                         prompt,
                         id,
-                        summaryType
+                        summaryType,
+                        Language
 
                     }
 
+                    // chrome.runtime.sendMessage({ action: 'getLanguage' });
                     chrome.runtime.sendMessage({ action: 'updatePopup', textContent: JSON.stringify(requestData) });
+                    
                 }
 
                 scrapeContent();
                     
                     
             },
-            args: [optionSelected, contentData]
+            args: [optionSelected, contentData, Language]
         });
 
 
@@ -117,32 +122,21 @@ function getText(contentData) {
 //figures out if page is a summary or web article
 function getSummaryType() {
     
-    var select = document.getElementById("summary-type-select");
-    var optionSelected = select.options[select.selectedIndex].value;
     
-    if (document.getElementById("youtube-link-input").style.border === "1px solid rgb(255, 138, 138)" && optionSelected === "youtube-video"){
-        //exit
-        return;
-
-    } else if (document.getElementById("youtube-link-input").value === ""){
-        document.getElementById("youtube-link-input").style.border = "1px solid rgb(255, 138, 138)";
-        
-    }
-
     //initiate loading animation (GIF)
     document.getElementById("loading-gif").style.display = 'block';
 
     var summarizeBtnTxt = document.getElementById("button-text");
     summarizeBtnTxt.style.display = "none";
 
+    var page_link = document.getElementById('page-link');
 
 
-    if (optionSelected === "youtube-video") {
+    if ((page_link.textContent).startsWith("https://www.youtube.com/watch?v=") || (page_link.textContent).startsWith("http://www.youtube.com/watch?v=")) {
 
         retrieveSubtitles();
 
-    } else if (optionSelected === "text") {
-
+    } else {
 
         getText("article");
 
@@ -182,7 +176,7 @@ function retrieveSubtitles() {
 
     var videoID = ""
 
-    var rawYTLink = document.getElementById("youtube-link-input").value;
+    var rawYTLink = document.getElementById("page-link").textContent;
 
     //extracts video ID
     if (rawYTLink.indexOf("v=") !== -1){
@@ -198,13 +192,7 @@ function retrieveSubtitles() {
         
         
         fetchSubtitles(videoID, '');
-        
-        
-        
-    } else {
-
-        document.getElementById("youtube-link-input").value = "Not a valid link";
-
+     
     }
 
     

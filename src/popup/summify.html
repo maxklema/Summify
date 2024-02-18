@@ -1,6 +1,7 @@
 <html>
 
     <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
 
 <body>
 
@@ -20,27 +21,29 @@
 
     <div class="settings-parent">
         <div class="length-parent">
-            <label for="length">Length</label>
+            <label for="length" id="summary-length-label">Length</label>
                 <select name="length" id="summary-length-select" >
-                    <option value="Brief">Snapshot (~ 100-250 wd)</option>
-                    <option value="Detailed">Detailed (~ 250-500 wd)</option>
+                    <option value="Brief" id="brief-summary">Snapshot Summary</option>
+                    <option value="Detailed" id="detailed-summary">Detailed Summary</option>
                 </select>
                 
         </div>
-        <div class="summary-type-parent">
-            <label for="type">Language</label>
+        <div class="summary-type-parent">       
+            <label for="type" id="language-label">Language</label>
                 <select name="type" id="summary-type-select">
-                    <option value="english">English</option>
-                    <option value="espanol">Espanol</option>
-                    <option value="mandarin_chinese">Man. Chinese</option>
-                    <option value="hindi">Hindi</option>
-                    <option value="french">French</option>
+                    <option value="english">English (US/UK)</option>
+                    <option value="spanish">Español</option>
+                    <option value="mandarin_chinese">普通话</option>
+                    <option value="hindi">हिन्दी</option>
+                    <option value="french">Français</option>
+                    <option value="auto">Page Language</option>
                 </select>
         </div>
     </div>
 
     <div id="summary-parent-js" class="summary-parent">
-        <textarea id="text" placeholder="Your summary will appear here!" readonly></textarea>
+        <textarea class="scroll" id="text" placeholder="Your summary will appear here!" readonly></textarea>
+
         <div class="summary-details">
           
             <p id="word-count-label">0 words</p>
@@ -50,7 +53,7 @@
         </div>
     </div>
 
-    <script src="../content/gui-changes.js"></script>
+    <script src="gui-changes.js"></script>
     <script src="../../dist/bundle2.js"></script>
 
     <button id="summarizeBtn" value="Summarize">
