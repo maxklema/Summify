@@ -12,16 +12,19 @@ Installing Summify in Chrome → https://chromewebstore.google.com/detail/gdcpch
 
 ## Usage
 
-Once Summify is installed, using it is really easy.
+Once Summify is installed, using it is easy.
 
 Whenever you are viewing content, you will have the option to select the summary length.
 
-Snippet (Default) → Shorter (~100-250 words)
+Brief Summary → Shorter (~100-250 words)
 
-Detailed → Longer (~250 - 500 words)
+Detailed Summary → Longer (~250 - 500 words)
 
-Then, just press the 'Summarize' button at the bottom of the extension, and Summify will do its magic!
+Then, press the 'Summarize' button at the bottom of the extension, and Summify will do its magic!
 
+## Supported Languages
+
+Summify Currently supports English (US/UK), French, Spanish, Hindi, Traditional Chinese, and other languages that Summify autodetects.
 
 ![Untitled design (3)](https://github.com/maxklema/Summify/assets/80615123/36d0b7a7-649d-41af-9e67-454891c5d2a1)
 
