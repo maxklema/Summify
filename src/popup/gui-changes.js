@@ -8,11 +8,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
 
     chrome.storage.local.get(['Language'], function(result) {
 
-      if (result == ""){
+      if (result['Language'] == ""){
+        result = "english"
+        document.getElementById("summary-type-select").value = result;
         changeLanguage();
       } else {
-      document.getElementById("summary-type-select").value = result['Language'];
-      changeLanguage();
+        document.getElementById("summary-type-select").value = result['Language'];
+        changeLanguage();
       }
     }); 
     
