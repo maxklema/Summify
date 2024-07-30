@@ -1,36 +1,27 @@
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
-
-
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
     
     if (request.action === 'updatePopup'){
-
         //update <p> tag
         var parsedContent = JSON.parse(request.textContent);
-
         if (parsedContent.id === "page-link"){
             
             document.getElementById('page-link').textContent = parsedContent.web_url;
-            
             //getting hostname for favicon purposes
             var parsedURL = new URL(parsedContent.web_url);
             const hostname = parsedURL.hostname;
 
             var favicon = document.getElementById("favicon-image");
             favicon.src = "https://www.google.com/s2/u/0/favicons?domain=" + hostname;
-        
             var webpage = document.getElementsByClassName('webpage');
             webpage[0].style.display = 'flex';
-            
-
+        
             if ((parsedContent.web_url).startsWith("https://www.youtube.com/watch?v=") || (parsedContent.web_url).startsWith("htps://www.youtube.com/watch?v=")){
         
                 //change the summary-type label
                 var summary_type_label = document.getElementById("summary-type-label");
                 summary_type_label.style.backgroundColor = "#ea8d8d";
                 summary_type_label.innerHTML = "YouTube";
-
-
             } 
 
             chrome.storage.local.get([parsedContent.web_url], function(result) {
@@ -38,24 +29,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
                 calculateWordCount(parsedContent.Language);
             });
 
-            
-            
-
-            
-
-
-
-            
-
         } else if (parsedContent.id === "text"){
-        
             const generationConfig = {
                 temperature: 0.9,
                 topK: 1,
                 topP: 1,
                 maxOutputTokens: 2048,
             };
-            
             const safetySettings = [
                 {
                 category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -74,22 +54,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
                 threshold: HarmBlockThreshold.BLOCK_NONE,
                 }
             ];
-
             if (parsedContent.summaryType === "web-page"){
-
                 //generate content
                 const genAI = new GoogleGenerativeAI("");
-
-
-
                 async function run() {
-
                     // For text-only input, use the gemini-pro model
-                    const model = genAI.getGenerativeModel({ model: "gemini-pro"});
-                    
-                        
-                
-
+                    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});                    
                     const parts = [
                         {text: parsedContent.prompt}
                     ];
@@ -101,14 +71,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
                 
                     });
 
-
-
                     const the_response = await result.response;
                     var responce = the_response.text();
 
                     document.getElementById('text').textContent = responce;
-
-                    
 
                     //uninitiate loading animation (GIF)
                     document.getElementById("loading-gif").style.display = 'none';
@@ -124,31 +90,24 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
 
                     chrome.storage.local.set({ [identifier]: responce }, function() {
                     });
-                
                 }
-
                 run();
-
-
 
             } else if (parsedContent.summaryType === "video") {
                 
                 //generate content
                 const genAI = new GoogleGenerativeAI("");
-
                 async function run() {
 
                     // For text-only input, use the gemini-pro model
-                    const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+                    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 
                     if ((parsedContent.prompt).endsWith("Video: ")) {
                         responce = "This video has no transcripts and cannot be summarized. Just say that.";
                     }
-
                     const parts = [
                         {text: parsedContent.prompt},
                     ];
-
                     const result = await model.generateContent({
                         contents: [{ role: "user", parts}],
                         generationConfig,
@@ -158,7 +117,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
                     const the_response = result.response;
                     var responce = the_response.text();
 
-
                     document.getElementById('text').textContent = responce;
 
                     //uninitiate loading animation (GIF)
@@ -169,38 +127,22 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
 
                     calculateWordCount(parsedContent.Language);
 
-
                     //store data
                     var currentURL = document.getElementById("page-link").textContent;
                     var identifier = currentURL;
 
                     chrome.storage.local.set({ [identifier]: responce }, function() {
-                        //nothing
                     });
-
                 }
-
                 run();
-
-
-
             }
-        
-
-
         }
-
     }
-    
 })
 
 function calculateWordCount(Language) {
-    
     //updating word count of text box
-  
     var text = document.getElementById('text').textContent;
-    
-
     var wordCount = 0;
 
     for (var i = 0; i < text.length; i++){
@@ -211,7 +153,6 @@ function calculateWordCount(Language) {
     }
 
     var words = ""
-
     switch(Language) {
 
         case "english":
@@ -232,10 +173,7 @@ function calculateWordCount(Language) {
         default:
           words = "words";
           break;
-
     }
     
-
     document.getElementById("word-count-label").innerHTML = wordCount + " " + words;
-
 }

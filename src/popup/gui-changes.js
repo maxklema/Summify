@@ -2,12 +2,8 @@ document.getElementById("summary-type-select").addEventListener("change", change
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
     
-
   if (request.action === 'getLanguage'){
-
-
     chrome.storage.local.get(['Language'], function(result) {
-
       if (result['Language'] == ""){
         result = "english"
         document.getElementById("summary-type-select").value = result;
@@ -17,17 +13,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
         changeLanguage();
       }
     }); 
-    
-
-
-
-
-    
   }
-
-
 });
-
 
 function changeLanguage() {
 
@@ -61,7 +48,6 @@ function changeLanguage() {
 
     switch (computedStyle.backgroundColor) {
 
-      
       case "rgb(71, 189, 195)":
         summary_type_label.innerHTML = "Webpage";
         break;
@@ -76,7 +62,6 @@ function changeLanguage() {
 
   } else if (language.value == "spanish") {
    
-
     languageLabel.innerHTML = "Idioma";
     summary_type.innerHTML = "Longitud";
     brief_summary.innerHTML = "Breve resumen";
@@ -116,12 +101,10 @@ function changeLanguage() {
     }
 
     switch (computedStyle.backgroundColor) {
-
-      
+ 
       case "rgb(71, 189, 195)":
         summary_type_label.innerHTML = "網頁";
         break;
-
     }
 
     chrome.storage.local.set({ Language: language.value }, function() {
@@ -143,12 +126,9 @@ function changeLanguage() {
     }
 
     switch (computedStyle.backgroundColor) {
-
-      
       case "rgb(71, 189, 195)":
         summary_type_label.innerHTML = "वेब पृष्ठ";
         break;
-
     }
 
     chrome.storage.local.set({ Language: language.value }, function() {
@@ -189,18 +169,12 @@ function changeLanguage() {
     });
 
   }
-
-
-
 }
 
 function calculateWordCount(language) {
-    
+  
   //updating word count of text box
-  
   var text = document.getElementById('text').textContent;
-  
-
   var wordCount = 0;
 
   for (var i = 0; i < text.length; i++){
