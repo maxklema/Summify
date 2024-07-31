@@ -1,5 +1,66 @@
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
+
+const generationConfig = {
+    temperature: 0.9,
+    topK: 1,
+    topP: 1,
+    maxOutputTokens: 2048,
+};
+const safetySettings = [
+    {
+    category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+    category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+    }
+];
+
+const generateContent = async (genAI, prompt, language) => {
+    
+    // For text-only input, use the gemini-pro model
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+    const parts = [
+        {text: prompt},
+    ];
+    const request = {
+        contents: [{ role: "user", parts}], generationConfig, safetySettings
+    };
+
+    document.getElementById('text').textContent = "";
+    calculateWordCount(language);
+
+    const streamingResp = await model.generateContentStream(request);
+    for await (const item of streamingResp.stream) {
+        document.getElementById('text').textContent += item["candidates"][0]["content"]["parts"][0]["text"];
+        calculateWordCount(language);
+    }
+
+    let responseRaw = await streamingResp.response;
+    let response = responseRaw["candidates"][0]["content"]["parts"][0]["text"];
+
+    //uninitiate loading animation (GIF)
+    document.getElementById("loading-gif").style.display = 'none';
+
+    var summarizeBtnTxt = document.getElementById("button-text");
+    summarizeBtnTxt.style.display = "block";
+
+    //store data
+    var currentURL = document.getElementById("page-link").textContent;
+    var identifier = currentURL;
+    chrome.storage.local.set({ [identifier]: response }, function() {});
+};
+
+chrome.runtime.onMessage.addListener(function(request) {
     
     if (request.action === 'updatePopup'){
         //update <p> tag
@@ -30,111 +91,39 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
             });
 
         } else if (parsedContent.id === "text"){
-            const generationConfig = {
-                temperature: 0.9,
-                topK: 1,
-                topP: 1,
-                maxOutputTokens: 2048,
-            };
-            const safetySettings = [
-                {
-                category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-                threshold: HarmBlockThreshold.BLOCK_NONE,
-                },
-                {
-                category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-                threshold: HarmBlockThreshold.BLOCK_NONE,
-                },
-                {
-                category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-                threshold: HarmBlockThreshold.BLOCK_NONE,
-                },
-                {
-                category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-                threshold: HarmBlockThreshold.BLOCK_NONE,
-                }
-            ];
             if (parsedContent.summaryType === "web-page"){
                 //generate content
                 const genAI = new GoogleGenerativeAI("");
-                async function run() {
-                    // For text-only input, use the gemini-pro model
-                    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});                    
-                    const parts = [
-                        {text: parsedContent.prompt}
-                    ];
-
-                    const result = await model.generateContent({
-                    contents: [{ role: "user", parts}],
-                    generationConfig,
-                    safetySettings,
-                
-                    });
-
-                    const the_response = await result.response;
-                    var responce = the_response.text();
-
-                    document.getElementById('text').textContent = responce;
-
-                    //uninitiate loading animation (GIF)
-                    document.getElementById("loading-gif").style.display = 'none';
-
-                    var summarizeBtnTxt = document.getElementById("button-text");
-                    summarizeBtnTxt.style.display = "block";
-
-                    calculateWordCount(parsedContent.Language);
-
-                    //store data
-                    var currentURL = document.getElementById("page-link").textContent;
-                    var identifier = currentURL;
-
-                    chrome.storage.local.set({ [identifier]: responce }, function() {
-                    });
-                }
-                run();
+                generateContent(genAI, parsedContent.prompt, parsedContent.Language);
 
             } else if (parsedContent.summaryType === "video") {
                 
                 //generate content
                 const genAI = new GoogleGenerativeAI("");
-                async function run() {
-
-                    // For text-only input, use the gemini-pro model
-                    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
-
+                ( async () => {
                     if ((parsedContent.prompt).endsWith("Video: ")) {
-                        responce = "This video has no transcripts and cannot be summarized. Just say that.";
+
+                        let response = "This video has no transcripts and cannot be summarized.";
+                        document.getElementById('text').textContent = response;
+                        calculateWordCount(parsedContent.Language);
+
+                        //uninitiate loading animation (GIF)
+                        document.getElementById("loading-gif").style.display = 'none';
+
+                        var summarizeBtnTxt = document.getElementById("button-text");
+                        summarizeBtnTxt.style.display = "block";
+
+                        //store data
+                        var currentURL = document.getElementById("page-link").textContent;
+                        var identifier = currentURL;
+
+                        chrome.storage.local.set({ [identifier]: response }, function() {
+                        });
+
+                    } else {
+                        generateContent(genAI, parsedContent.prompt, parsedContent.Language);
                     }
-                    const parts = [
-                        {text: parsedContent.prompt},
-                    ];
-                    const result = await model.generateContent({
-                        contents: [{ role: "user", parts}],
-                        generationConfig,
-                        safetySettings,
-                    });
-
-                    const the_response = result.response;
-                    var responce = the_response.text();
-
-                    document.getElementById('text').textContent = responce;
-
-                    //uninitiate loading animation (GIF)
-                    document.getElementById("loading-gif").style.display = 'none';
-
-                    var summarizeBtnTxt = document.getElementById("button-text");
-                    summarizeBtnTxt.style.display = "block";
-
-                    calculateWordCount(parsedContent.Language);
-
-                    //store data
-                    var currentURL = document.getElementById("page-link").textContent;
-                    var identifier = currentURL;
-
-                    chrome.storage.local.set({ [identifier]: responce }, function() {
-                    });
-                }
-                run();
+                })();
             }
         }
     }
@@ -156,23 +145,23 @@ function calculateWordCount(Language) {
     switch(Language) {
 
         case "english":
-          words = "words";
-          break;
+            words = "words";
+            break;
         case "spanish":
-          words = "palabras";
-          break;
+            words = "palabras";
+            break;
         case "mandarin_chinese":
-          words = "字";
-          break;
+            words = "字";
+            break;
         case "hindi":
-          words = "शब्द";
-          break;
+            words = "शब्द";
+            break;
         case "french":
-          words = "mots";
-          break;
+            words = "mots";
+            break;
         default:
-          words = "words";
-          break;
+            words = "words";
+            break;
     }
     
     document.getElementById("word-count-label").innerHTML = wordCount + " " + words;
