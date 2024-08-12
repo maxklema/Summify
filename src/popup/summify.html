@@ -1,55 +1,50 @@
 <html>
-
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
-
 <body>
 
     <div class="header"> 
         <img src="images/Summify_Logo.png" id="summary-logo" alt="Summify Logo">
         <div class="external-links-parent">
             <a href="https://github.com/maxklema/Summify" target="_blank"><img src="images/githubLogo.png"  alt="Summify Repository"></a>
-            <a href="https://ko-fi.com/summify" target="_blank"><img src="images/heartIcon.png" alt="Donate to Summify"></a>
+            <a href="https://ko-fi.com/summify" target="_blank"><img src="images/kofiIcon.png" alt="Donate to Summify" id="kofiCup"></a>
         </div>
     </div>
-
-    <div id="webpage-js" class="webpage">
-        <img src="https://www.google.com/s2/u/0/favicons?domain=ksdaslkdasd.com" id="favicon-image" alt="Favicon">
-        <p id="page-link">Unable to identify public page link</p>
-    </div>
-
 
     <div class="settings-parent">
         <div class="length-parent">
-            <label for="length" id="summary-length-label">Length</label>
-                <select name="length" id="summary-length-select" >
-                    <option value="Brief" id="brief-summary">Snapshot Summary</option>
-                    <option value="Detailed" id="detailed-summary">Detailed Summary</option>
-                </select>
-                
+            <select name="length" id="summary-length-select" >
+                <option value="Brief" id="brief-summary">Snapshot Summary</option>
+                <option value="Detailed" id="detailed-summary">Detailed Summary</option>
+            </select>
+            <label for="length" id="summary-length-label">Length</label>                
         </div>
         <div class="summary-type-parent">       
+            <select name="type" id="summary-type-select">
+                <option value="english">English (US/UK)</option>
+                <option value="spanish">Español</option>
+                <option value="mandarin_chinese">普通话</option>
+                <option value="hindi">हिन्दी</option>
+                <option value="french">Français</option>
+                <option value="auto">Page Language</option>
+            </select>
             <label for="type" id="language-label">Language</label>
-                <select name="type" id="summary-type-select">
-                    <option value="english">English (US/UK)</option>
-                    <option value="spanish">Español</option>
-                    <option value="mandarin_chinese">普通话</option>
-                    <option value="hindi">हिन्दी</option>
-                    <option value="french">Français</option>
-                    <option value="auto">Page Language</option>
-                </select>
         </div>
     </div>
 
     <div id="summary-parent-js" class="summary-parent">
         <textarea class="scroll" id="text" data-provide="markdown" placeholder="Your summary will appear here!" readonly></textarea>
+        <div class="summary-details">  
 
-        <div class="summary-details">
-          
-            <p id="word-count-label">0 words</p>
-            <button id="copy-text-button"><img src="images/copy_icon.png" alt="Copy Icon"></button>
-            <p id="summary-type-label">Webpage</p>
-          
+            <div class="summary-information">
+                <p id="word-count-label">0 words</p>
+                <button id="copy-text-button"><img src="images/copy_icon.png" alt="Copy Icon"></button>
+            </div>
+            <div id="webpage-js" class="webpage">
+                <img src="https://www.google.com/s2/u/0/favicons?domain=ksdaslkdasd.com" id="favicon-image" alt="Favicon">
+                <p id="page-link">Unable to identify public page link</p>
+            </div>
+
         </div>
     </div>
 

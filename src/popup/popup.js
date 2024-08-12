@@ -58,7 +58,9 @@ const generateContent = async (genAI, prompt, language) => {
     var currentURL = document.getElementById("page-link").textContent;
     var identifier = currentURL;
     chrome.storage.local.set({ [identifier]: response }, function() {});
+
 };
+
 
 chrome.runtime.onMessage.addListener(function(request) {
     
@@ -76,15 +78,7 @@ chrome.runtime.onMessage.addListener(function(request) {
             favicon.src = "https://www.google.com/s2/u/0/favicons?domain=" + hostname;
             var webpage = document.getElementsByClassName('webpage');
             webpage[0].style.display = 'flex';
-        
-            if ((parsedContent.web_url).startsWith("https://www.youtube.com/watch?v=") || (parsedContent.web_url).startsWith("htps://www.youtube.com/watch?v=")){
-        
-                //change the summary-type label
-                var summary_type_label = document.getElementById("summary-type-label");
-                summary_type_label.style.backgroundColor = "#ea8d8d";
-                summary_type_label.innerHTML = "YouTube";
-            } 
-
+    
             chrome.storage.local.get([parsedContent.web_url], function(result) {
                 document.getElementById("text").textContent = result[parsedContent.web_url];
                 calculateWordCount(parsedContent.Language);

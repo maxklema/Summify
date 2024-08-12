@@ -28,9 +28,6 @@ function changeLanguage() {
   var button_text = document.getElementById("button-text");
   var public_page_link = document.getElementById("page-link");
   var text_area = document.getElementById("text");
- 
-  var summary_type_label = document.getElementById("summary-type-label");
-  var computedStyle = window.getComputedStyle(summary_type_label);
 
 
   if (language.value == "english"){
@@ -46,19 +43,10 @@ function changeLanguage() {
       public_page_link.innerHTML = "Unable to identify public page link";  
     }
 
-    switch (computedStyle.backgroundColor) {
-
-      case "rgb(71, 189, 195)":
-        summary_type_label.innerHTML = "Webpage";
-        break;
-
-    }
-
     chrome.storage.local.set({ Language: language.value }, function() {
     });
 
     calculateWordCount("words");
-
 
   } else if (language.value == "spanish") {
    
@@ -71,15 +59,6 @@ function changeLanguage() {
 
     if (!(public_page_link.innerHTML).startsWith("http")){
       public_page_link.innerHTML = "No se puede identificar el enlace de la página pública";  
-    }
-
-    switch (computedStyle.backgroundColor) {
-
-      
-      case "rgb(71, 189, 195)":
-        summary_type_label.innerHTML = "Página web";
-        break;
-
     }
 
     chrome.storage.local.set({ Language: language.value }, function() {
@@ -100,13 +79,6 @@ function changeLanguage() {
       public_page_link.innerHTML = "無法識別公共頁面鏈接";  
     }
 
-    switch (computedStyle.backgroundColor) {
- 
-      case "rgb(71, 189, 195)":
-        summary_type_label.innerHTML = "網頁";
-        break;
-    }
-
     chrome.storage.local.set({ Language: language.value }, function() {
     });
 
@@ -125,12 +97,6 @@ function changeLanguage() {
       public_page_link.innerHTML = "सार्वजनिक पेज लिंक की पहचान करने में असमर्थ";  
     }
 
-    switch (computedStyle.backgroundColor) {
-      case "rgb(71, 189, 195)":
-        summary_type_label.innerHTML = "वेब पृष्ठ";
-        break;
-    }
-
     chrome.storage.local.set({ Language: language.value }, function() {
     });
 
@@ -147,15 +113,6 @@ function changeLanguage() {
 
     if (!(public_page_link.innerHTML).startsWith("http")){
       public_page_link.innerHTML = "Impossible d'identifier le lien de la page publique";  
-    }
-
-    switch (computedStyle.backgroundColor) {
-
-      
-      case "rgb(71, 189, 195)":
-        summary_type_label.innerHTML = "page web";
-        break;
-
     }
 
     chrome.storage.local.set({ Language: language.value }, function() {
