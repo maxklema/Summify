@@ -1,4 +1,5 @@
 document.getElementById("summary-type-select").addEventListener("change", changeLanguage)
+document.getElementById("summary-length-select").addEventListener("change", changeSummaryType);
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
     
@@ -13,11 +14,28 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
         changeLanguage();
       }
     }); 
+  } else {
+    chrome.storage.local.get(['summaryType'], function(result) {
+        // console.log(resul);
+        document.getElementById("summary-length-select").value = result["summaryType"];
+        changeSummaryType();
+    });
   }
 });
 
-function changeLanguage() {
+function changeSummaryType() {
+  const summaryType = document.getElementById("summary-length-select");
 
+  if (summaryType.value == "Brief"){
+    chrome.storage.local.set({ summaryType: summaryType.value }, function() {
+    });
+  } else {
+    chrome.storage.local.set({ summaryType: summaryType.value }, function() {
+    });
+  }
+}
+
+function changeLanguage() {
   const language = document.getElementById("summary-type-select");
  
   //page content labels

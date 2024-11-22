@@ -46,7 +46,7 @@ const generateContent = async (genAI, prompt, language) => {
     }
 
     let responseRaw = await streamingResp.response;
-    let response = responseRaw["candidates"][0]["content"]["parts"][0]["text"];
+    let response = responseRaw["candidates"]["undefined"]["content"]["parts"][0]["text"];
 
     //uninitiate loading animation (GIF)
     document.getElementById("loading-gif").style.display = 'none';
@@ -78,7 +78,7 @@ chrome.runtime.onMessage.addListener(function(request) {
             favicon.src = "https://www.google.com/s2/u/0/favicons?domain=" + hostname;
             var webpage = document.getElementsByClassName('webpage');
             webpage[0].style.display = 'flex';
-    
+        
             chrome.storage.local.get([parsedContent.web_url], function(result) {
                 document.getElementById("text").textContent = result[parsedContent.web_url];
                 calculateWordCount(parsedContent.Language);
