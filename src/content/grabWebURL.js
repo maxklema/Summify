@@ -9,4 +9,5 @@ var content = {
 chrome.runtime.sendMessage({ action: 'updatePopup', textContent: JSON.stringify(content) }, function() {
     // This callback function will be called after the 'getLanguage' message is sent
     chrome.runtime.sendMessage({ action: 'getLanguage' });
+    chrome.runtime.sendMessage({ action: 'getMode' });
 });

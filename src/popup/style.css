@@ -1,3 +1,28 @@
+/* light mode colors */
+:root {
+    --background-color: rgb(248, 248, 248);
+    --button-background: #4169E1;
+    --default-background: #fff;
+    --border-color: #000;
+    --text-color: #000;
+    --favicon-background: #E6E6FA;
+    --word-count-label: #808080;
+    --scrollbar-color: #dcdceb;
+}
+
+/* dark mode colors */
+body.dark-mode {
+    --background-color: #1a1a1a;
+    --button-background: #4169E1;
+    --default-background: rgb(40, 40, 40);
+    --border-color: #dbdbdb;
+    --text-color: #fff;
+    --favicon-background: #45455a;
+    --word-count-label: #e4e4e4;
+    --scrollbar-color: #40404d;
+}
+
+
 @font-face {
     font-family: 'Poppins-Medium';
     src: url('Poppins/Poppins-Medium.ttf');
@@ -21,18 +46,13 @@
 * {
     padding: 2px;
     padding-top: 0px;
-    
-    
+    transition: 0.25s ease-in-out !important;
 }
 
 body {
     height: 520px;
     width: 320px;
-    background-color: rgb(248, 248, 248);
-}
-
-#summarize-button:hover {
-    background-color: rgb(50, 50, 50);
+    background-color: var(--background-color);
 }
 
 .header {
@@ -72,8 +92,8 @@ body {
     width: 100%;
     height: 35px;
     border-radius: 5px;
-    background-color: #4169E1;
-    color: white;
+    background-color: var(--button-background);
+    color: #fff;
     border: none;
     cursor: pointer;
     display: flex;
@@ -142,7 +162,7 @@ body {
 .summary-parent {
     display: flex;
     flex-direction: column;
-    background: white;
+    background: var(--default-background);
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 5px;
@@ -156,8 +176,11 @@ body {
     font-family: Poppins-Normal;
     font-size: 13px;
     border: none;
-    background-color: white;
+    background-color: var(--default-background);
     height: 385px;
+    color: var(--text-color);
+    scrollbar-color: var(--scrollbar-color) var(--default-background);
+
 }
 
 #text-youtube {
@@ -165,13 +188,13 @@ body {
     font-family: Poppins-Normal;
     font-size: 12px;
     border: none;
-    background-color: white;
+    background-color: var(--default-background);
     height: 235px;
     display: none;
 }
 
 .summary-details {
-    background-color: white;
+    background-color: var(--default-background);
     display: flex;
     justify-content: space-between;
     max-height: 25px;
@@ -190,33 +213,22 @@ body {
 }
 
 #word-count-label {
-    background-color: white;
-    color: #808080;
+    background-color: var(--default-background);
+    color: var(--word-count-label);
     font-family: Poppins-Normal;
     font-size: 11px;
     padding-top: 3px;
 }
 
-#summary-type-label {
-    color: white;
-    font-family: Poppins-Normal;
-    font-size: 10px;
-    background-color: #47bdc3;
-    border-radius: 5px;
-    padding: 2px 4px;
-    margin-left: 4px;
-}
-
-
 .summary-details button {
     border: none;
-    background-color: white;
+    background-color: var(--default-background);
     margin-top: 4.5px;
 }
 
 .summary-details  button img {
     max-height: 13px;
-    background-color: white;
+    background-color: var(--default-background);
     max-width: 13px;
 }
 
@@ -235,7 +247,7 @@ body {
     border-radius: 5px;
     padding: 0;
     align-items: center;
-    background-color: #E6E6FA;
+    background-color: var(--favicon-background);
     max-width: 65%;
 }
 
@@ -244,7 +256,7 @@ body {
     max-width: 13px;
     border-radius: 10px;
     margin-left: 5px;
-    background-color: #E6E6FA;
+    background-color: var(--favicon-background);
 }
 
 .webpage p {
@@ -253,9 +265,9 @@ body {
     text-overflow: ellipsis;
     font-family: Poppins-Normal;
     white-space: nowrap;
-    color: black;
+    color: var(--text-color);
     margin-left: 2px;
-    background-color: #E6E6FA;
+    background-color: var(--favicon-background);
     margin-right: 5px;
 }
 
@@ -290,11 +302,11 @@ body {
     width: 150px;
     height: 35px;
     font-size: 12px;
-    color: "black";
+    color: var(--border-color);
     padding-left: 7.5px;
     background: transparent;
-    border: 1.5px solid "black";
-    outline: none;
+    border: 1.5px solid; 
+    outline: var(--border-color);
     border-radius: 5px;
     font-family: Poppins-Normal;
 }
@@ -316,8 +328,9 @@ body {
 .length-parent select:valid~label {
     top: 0;
     font-size: 9.5px;
-    background: rgb(248, 248, 248);
-    transition: 0.5s ease;
+    background: var(--background-color);
+    /* transition: 0.5s ease; */
+    color: var(--border-color);
     font-family: Poppins-Normal;
 }
 
@@ -344,10 +357,10 @@ body {
     width: 130px;
     height: 35px;
     font-size: 12px;
-    color: "black";
+    color: var(--border-color);
     padding-left: 7.5px;
     background: transparent;
-    border: 1.5px solid "black";
+    border: 1.5px solid var(--border-color);
     outline: none;
     border-radius: 5px;
     font-family: Poppins-Normal;
@@ -369,8 +382,13 @@ body {
 .summary-type-parent select:valid~label {
     top: 0;
     font-size: 9.5px;
-    background: rgb(248, 248, 248);
-    transition: 0.5s ease;
+    background: var(--background-color);
+    /* transition: 0.5s ease; */
     font-family: Poppins-Normal;
+    color: var(--border-color);
+}
+
+#toggle-mode:hover {
+    cursor: pointer;
 }
 

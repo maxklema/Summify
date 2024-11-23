@@ -1,37 +1,70 @@
 document.getElementById("summary-type-select").addEventListener("change", changeLanguage)
 document.getElementById("summary-length-select").addEventListener("change", changeSummaryType);
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
-    
-  if (request.action === 'getLanguage'){
-    chrome.storage.local.get(['Language'], function(result) {
-      if (result['Language'] == ""){
-        result = "english"
-        document.getElementById("summary-type-select").value = result;
-        changeLanguage();
-      } else {
-        document.getElementById("summary-type-select").value = result['Language'];
-        changeLanguage();
-      }
-    }); 
-  } else {
-    chrome.storage.local.get(['summaryType'], function(result) {
+chrome.runtime.onMessage.addListener(function(request) {
+  
+  switch(request.action){
+    case 'getLanuage': {
+      chrome.storage.local.get(['Language'], function(result) {
+        if (!result['Language']){
+          result = "english"
+          document.getElementById("summary-type-select").value = result;
+          changeLanguage();
+        } else {
+          document.getElementById("summary-type-select").value = result['Language'];
+          changeLanguage();
+        }
+      }); 
+      break;
+    }
+    case 'getMode': {
+      chrome.storage.local.get(['Mode'], function(result) {
+        if (!result['Mode']){
+          chrome.storage.local.set({ 'Mode': 'Light' }, function() {});
+          if (document.body.classList[0] == 'dark-mode'){
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
+            document.getElementById('modeIcon').src = "images/lightModeIcon.png";
+          }
+        } else if (result['Mode'] == 'Light') {
+          if (document.body.classList[0] == 'dark-mode'){
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
+            document.getElementById('modeIcon').src = "images/lightModeIcon.png";
+          }
+        } else if (result['Mode'] == 'Dark') {
+          if (document.body.classList[0] != 'dark-mode'){
+            document.body.classList.toggle('dark-mode');
+          }
+          document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
+          document.getElementById('modeIcon').src = "images/lightModeIcon.png";
+        }
+      }); 
+      break;
+    }
+    default: {
+      chrome.storage.local.get(['summaryType'], function(result) {
         // console.log(resul);
-        document.getElementById("summary-length-select").value = result["summaryType"];
-        changeSummaryType();
-    });
+        if (result['summaryType']){
+          document.getElementById("summary-length-select").value = result["summaryType"];
+          changeSummaryType();
+        } else {
+          document.getElementById("summary-length-select").value = "Brief";
+          changeSummaryType();
+        }
+      });
+    }
   }
+  
 });
 
 function changeSummaryType() {
   const summaryType = document.getElementById("summary-length-select");
 
   if (summaryType.value == "Brief"){
-    chrome.storage.local.set({ summaryType: summaryType.value }, function() {
-    });
+    chrome.storage.local.set({ summaryType: summaryType.value }, function() {});
   } else {
-    chrome.storage.local.set({ summaryType: summaryType.value }, function() {
-    });
+    chrome.storage.local.set({ summaryType: summaryType.value }, function() {});
   }
 }
 
@@ -162,3 +195,18 @@ function calculateWordCount(language) {
   document.getElementById("word-count-label").innerHTML = wordCount + " " + language;
 
 }
+
+//toggle light/dark mode
+const button = document.getElementById("toggle-mode");
+button.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  if (document.body.classList[0] == 'dark-mode'){
+    chrome.storage.local.set({ 'Mode': 'Dark' }, function() {});
+    document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
+    document.getElementById('modeIcon').src = "images/lightModeIcon.png";
+  } else {
+    chrome.storage.local.set({ 'Mode': 'Light' }, function() {});
+    document.getElementById('summary-logo').src = "images/summifyLogoLight.png";
+    document.getElementById('modeIcon').src = "images/darkModeIcon.png";
+  }
+});
