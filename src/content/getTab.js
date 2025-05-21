@@ -98,12 +98,18 @@ function retrieveSubtitles() {
 
     const fetchSubtitles = async (videoID, lang) => {
         try {
-            const subtitles = await getSubtitles({ videoID, lang });
-            length = subtitles.length;
-            //iterate through the array and print extract just the text portions
-
-            for (var i = 0; i < length; i++) {
-                completeTranscript += subtitles[i].text + " ";
+            
+            let resp = await fetch("https://simple-python-qr5s.onrender.com/url/" + videoID);
+            let retries = 2
+            while (resp.status == 500 && retries > 0){
+              resp = await fetch("https://simple-python-qr5s.onrender.com/url/" + videoID);
+              retries -= 1;
+            }
+            if (resp.status == 500){
+              const rawHTML = await fetch("https://www.youtube.com/watch?v=" + videoID);
+              completeTranscript = await rawHTML.text();
+            } else {
+              completeTranscript = await resp.text();
             }
 
         } catch (error) {
