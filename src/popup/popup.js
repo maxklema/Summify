@@ -63,7 +63,6 @@ const generateContent = async (genAI, prompt, language) => {
 
 
 chrome.runtime.onMessage.addListener(function(request) {
-    
     if (request.action === 'updatePopup'){
         //update <p> tag
         var parsedContent = JSON.parse(request.textContent);
