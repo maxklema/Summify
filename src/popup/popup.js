@@ -28,7 +28,7 @@ const safetySettings = [
 const generateContent = async (genAI, prompt, language) => {
     
     // For text-only input, use the gemini-pro model
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite"});
     const parts = [
         {text: prompt},
     ];

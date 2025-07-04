@@ -941,7 +941,7 @@ var generateContent = /*#__PURE__*/function () {
         case 0:
           // For text-only input, use the gemini-pro model
           model = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash"
+            model: "gemini-2.0-flash-lite"
           });
           parts = [{
             text: prompt
@@ -1051,11 +1051,13 @@ chrome.runtime.onMessage.addListener(function (request) {
     } else if (parsedContent.id === "text") {
       if (parsedContent.summaryType === "web-page") {
         //generate content
-        var genAI = new GoogleGenerativeAI("AIzaSyBZYmTIgb4XY79T9hxlFAz2ug9845tVBIc");
+        
+        var genAI = new GoogleGenerativeAI("AIzaSyA9xnCf_5DYDkOTUmDP76j8PA0trUwuM_A");
+        // console.log("LIST OF MODELS: " + genAI.ListModels())
         generateContent(genAI, parsedContent.prompt, parsedContent.Language);
       } else if (parsedContent.summaryType === "video") {
         //generate content
-        var _genAI = new GoogleGenerativeAI("AIzaSyBZYmTIgb4XY79T9hxlFAz2ug9845tVBIc");
+        var _genAI = new GoogleGenerativeAI("AIzaSyA9xnCf_5DYDkOTUmDP76j8PA0trUwuM_A");
         _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
           var response, summarizeBtnTxt, currentURL, identifier;
           return _regeneratorRuntime().wrap(function _callee2$(_context2) {

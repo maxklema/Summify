@@ -98,10 +98,10 @@ function retrieveSubtitles() {
     const fetchSubtitles = async (videoID, lang) => {
         try {
             
-            let resp = await fetch("https://simple-python-qr5s.onrender.com/url/" + videoID);
+            let resp = await fetch("https://dedicated-flask-server-for-summify.vercel.app/" + videoID);
             let retries = 2
             while (resp.status == 500 && retries > 0){
-                resp = await fetch("https://simple-python-qr5s.onrender.com/url/" + videoID);
+                resp = await fetch("https://dedicated-flask-server-for-summify.vercel.app/" + videoID);
                 retries -= 1;
             }
             if (resp.status == 500){
