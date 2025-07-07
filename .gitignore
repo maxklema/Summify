@@ -9,3 +9,6 @@ package-lock.json
 dist
 yarn.lock
 .env
+popupBundle.js
+/bundles/*
+bundles/popupBundle.js

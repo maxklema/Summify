@@ -3,58 +3,103 @@ document.getElementById("summary-length-select").addEventListener("change", chan
 
 chrome.runtime.onMessage.addListener(function(request) {
   
-  switch(request.action){
-    case 'getLanuage': {
-      chrome.storage.local.get(['Language'], function(result) {
-        if (!result['Language']){
-          result = "english"
-          document.getElementById("summary-type-select").value = result;
-          changeLanguage();
-        } else {
-          document.getElementById("summary-type-select").value = result['Language'];
-          changeLanguage();
-        }
-      }); 
-      break;
+  chrome.storage.local.get(['summaryType'], function(result) {
+    // console.log(resul);
+    if (result['summaryType']){
+      document.getElementById("summary-length-select").value = result["summaryType"];
+      changeSummaryType();
+    } else {
+      document.getElementById("summary-length-select").value = "Brief";
+      changeSummaryType();
     }
-    case 'getMode': {
-      chrome.storage.local.get(['Mode'], function(result) {
-        if (!result['Mode']){
-          chrome.storage.local.set({ 'Mode': 'Light' }, function() {});
-          if (document.body.classList[0] == 'dark-mode'){
-            document.body.classList.toggle('dark-mode');
-            document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
-            document.getElementById('modeIcon').src = "images/lightModeIcon.png";
-          }
-        } else if (result['Mode'] == 'Light') {
-          if (document.body.classList[0] == 'dark-mode'){
-            document.body.classList.toggle('dark-mode');
-            document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
-            document.getElementById('modeIcon').src = "images/lightModeIcon.png";
-          }
-        } else if (result['Mode'] == 'Dark') {
-          if (document.body.classList[0] != 'dark-mode'){
-            document.body.classList.toggle('dark-mode');
-          }
-          document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
-          document.getElementById('modeIcon').src = "images/lightModeIcon.png";
-        }
-      }); 
-      break;
+  });
+
+  chrome.storage.local.get(['Language'], function(result) {
+    if (!result['Language']){
+      result = "english"
+      document.getElementById("summary-type-select").value = result;
+      changeLanguage();
+    } else {
+      document.getElementById("summary-type-select").value = result['Language'];
+      changeLanguage();
     }
-    default: {
-      chrome.storage.local.get(['summaryType'], function(result) {
-        // console.log(resul);
-        if (result['summaryType']){
-          document.getElementById("summary-length-select").value = result["summaryType"];
-          changeSummaryType();
-        } else {
-          document.getElementById("summary-length-select").value = "Brief";
-          changeSummaryType();
-        }
-      });
+  }); 
+
+  chrome.storage.local.get(['Mode'], function(result) {
+    if (!result['Mode']){
+      chrome.storage.local.set({ 'Mode': 'Light' }, function() {});
+      if (document.body.classList[0] == 'dark-mode'){
+        document.body.classList.toggle('dark-mode');
+        document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
+        document.getElementById('modeIcon').src = "images/lightModeIcon.png";
+      }
+    } else if (result['Mode'] == 'Light') {
+      if (document.body.classList[0] == 'dark-mode'){
+        document.body.classList.toggle('dark-mode');
+        document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
+        document.getElementById('modeIcon').src = "images/lightModeIcon.png";
+      }
+    } else if (result['Mode'] == 'Dark') {
+      if (document.body.classList[0] != 'dark-mode'){
+        document.body.classList.toggle('dark-mode');
+      }
+      document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
+      document.getElementById('modeIcon').src = "images/lightModeIcon.png";
     }
-  }
+  }); 
+
+  // switch(request.action){
+  //   case 'getLanuage': {
+  //     chrome.storage.local.get(['Language'], function(result) {
+  //       if (!result['Language']){
+  //         result = "english"
+  //         document.getElementById("summary-type-select").value = result;
+  //         changeLanguage();
+  //       } else {
+  //         document.getElementById("summary-type-select").value = result['Language'];
+  //         changeLanguage();
+  //       }
+  //     }); 
+  //     break;
+  //   }
+  //   case 'getMode': {
+  //     chrome.storage.local.get(['Mode'], function(result) {
+  //       if (!result['Mode']){
+  //         chrome.storage.local.set({ 'Mode': 'Light' }, function() {});
+  //         if (document.body.classList[0] == 'dark-mode'){
+  //           document.body.classList.toggle('dark-mode');
+  //           document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
+  //           document.getElementById('modeIcon').src = "images/lightModeIcon.png";
+  //         }
+  //       } else if (result['Mode'] == 'Light') {
+  //         if (document.body.classList[0] == 'dark-mode'){
+  //           document.body.classList.toggle('dark-mode');
+  //           document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
+  //           document.getElementById('modeIcon').src = "images/lightModeIcon.png";
+  //         }
+  //       } else if (result['Mode'] == 'Dark') {
+  //         if (document.body.classList[0] != 'dark-mode'){
+  //           document.body.classList.toggle('dark-mode');
+  //         }
+  //         document.getElementById('summary-logo').src = "images/summifyLogoDark.png";
+  //         document.getElementById('modeIcon').src = "images/lightModeIcon.png";
+  //       }
+  //     }); 
+  //     break;
+  //   }
+  //   default: {
+  //     chrome.storage.local.get(['summaryType'], function(result) {
+  //       // console.log(resul);
+  //       if (result['summaryType']){
+  //         document.getElementById("summary-length-select").value = result["summaryType"];
+  //         changeSummaryType();
+  //       } else {
+  //         document.getElementById("summary-length-select").value = "Brief";
+  //         changeSummaryType();
+  //       }
+  //     });
+  //   }
+  // }
   
 });
 

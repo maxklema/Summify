@@ -1,6 +1,5 @@
 document.getElementById("summarizeBtn").addEventListener("click", getSummaryType);
 document.getElementById("copy-text-button").addEventListener("click", copyText);
-const { getSubtitles } = require('youtube-caption-extractor');
 
 function getText(contentData) {
     var selectElement = document.getElementById('summary-length-select');
@@ -19,8 +18,7 @@ function getText(contentData) {
         chrome.scripting.executeScript({
             target: { tabId: currentTabId },
             func: (optionSelected, contentData, Language) => {
-
-                async function scrapeContent() {
+                async function scrapeContent() {    
                     var allText = "";
                     if (contentData != "article") {
                         allText = contentData;
@@ -36,19 +34,20 @@ function getText(contentData) {
                         } else {
                             prompt = "summarize this webpage BRIEFLY in " + Language + ". Ignore headers, footers, ads, and other misc. junk :" + allText;
                         }
-                        if (prompt.length > 25000) {
-                            prompt = prompt.substring(0, 24999);
+                        if (prompt.length > 12500) {
+                            prompt = prompt.substring(0, 12500);
                         }
+                        console.log("PROMPT: " + prompt)
                     } else {
                         if (allText.startsWith("Video")) {
                             prompt = "Summarize this youtube video transcript with GREAT DETAIL (250-500 words) in " + Language + ": " + allText;
                         } else {
                             prompt = "Summarize this webpage with GREAT DETAIL (250-500 words) in " + Language + ". NO LESS THAN 250 WORDS. Ignore headers, footers, ads, and other misc. junk: " + allText;
-                            console.log(prompt);
                         }
-                        if (prompt.length > 25000) {
-                            prompt = prompt.substring(0, 24999);
+                        if (prompt.length > 12500) {
+                            prompt = prompt.substring(0, 12500);
                         }
+                        console.log("PROMPT: " + prompt)
                     }
                     const id = "text";
                     var summaryType = "";
@@ -98,12 +97,18 @@ function retrieveSubtitles() {
 
     const fetchSubtitles = async (videoID, lang) => {
         try {
-            const subtitles = await getSubtitles({ videoID, lang });
-            length = subtitles.length;
-            //iterate through the array and print extract just the text portions
-
-            for (var i = 0; i < length; i++) {
-                completeTranscript += subtitles[i].text + " ";
+            
+            let resp = await fetch("https://dedicated-flask-server-for-summify.vercel.app/" + videoID);
+            let retries = 2
+            while (resp.status == 500 && retries > 0){
+                resp = await fetch("https://dedicated-flask-server-for-summify.vercel.app/" + videoID);
+                retries -= 1;
+            }
+            if (resp.status == 500){
+                const rawHTML = await fetch("https://www.youtube.com/watch?v=" + videoID);
+                completeTranscript = await rawHTML.text();
+            } else {
+                completeTranscript = await resp.text();
             }
 
         } catch (error) {

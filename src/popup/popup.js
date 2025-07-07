@@ -1,4 +1,4 @@
-const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
+import { GoogleGenAI, HarmCategory, HarmBlockThreshold } from "@google/genai";
 
 const generationConfig = {
     temperature: 0.9,
@@ -28,25 +28,27 @@ const safetySettings = [
 const generateContent = async (genAI, prompt, language) => {
     
     // For text-only input, use the gemini-pro model
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
     const parts = [
         {text: prompt},
     ];
+
     const request = {
+        model: 'gemini-2.5-flash-lite-preview-06-17',
         contents: [{ role: "user", parts}], generationConfig, safetySettings
     };
 
     document.getElementById('text').textContent = "";
     calculateWordCount(language);
 
-    const streamingResp = await model.generateContentStream(request);
-    for await (const item of streamingResp.stream) {
-        document.getElementById('text').textContent += item["candidates"][0]["content"]["parts"][0]["text"];
+    let fullText = "";
+
+    const streamingResp = await genAI.models.generateContentStream(request);
+    for await (const item of streamingResp) {
+        let chunk = item["candidates"][0]["content"]["parts"][0]["text"];
+        document.getElementById('text').textContent += chunk;
+        fullText += chunk;
         calculateWordCount(language);
     }
-
-    let responseRaw = await streamingResp.response;
-    let response = responseRaw["candidates"]["undefined"]["content"]["parts"][0]["text"];
 
     //uninitiate loading animation (GIF)
     document.getElementById("loading-gif").style.display = 'none';
@@ -57,13 +59,12 @@ const generateContent = async (genAI, prompt, language) => {
     //store data
     var currentURL = document.getElementById("page-link").textContent;
     var identifier = currentURL;
-    chrome.storage.local.set({ [identifier]: response }, function() {});
+    chrome.storage.local.set({ [identifier]: fullText }, function() {});
 
 };
 
 
 chrome.runtime.onMessage.addListener(function(request) {
-    
     if (request.action === 'updatePopup'){
         //update <p> tag
         var parsedContent = JSON.parse(request.textContent);
@@ -87,13 +88,13 @@ chrome.runtime.onMessage.addListener(function(request) {
         } else if (parsedContent.id === "text"){
             if (parsedContent.summaryType === "web-page"){
                 //generate content
-                const genAI = new GoogleGenerativeAI("");
+                const genAI = new GoogleGenAI({apiKey: ""});
                 generateContent(genAI, parsedContent.prompt, parsedContent.Language);
 
             } else if (parsedContent.summaryType === "video") {
                 
                 //generate content
-                const genAI = new GoogleGenerativeAI("");
+                const genAI = new GoogleGenAI({apiKey: ""});
                 ( async () => {
                     if ((parsedContent.prompt).endsWith("Video: ")) {
 
